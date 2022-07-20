@@ -8,8 +8,10 @@ const Header = () => {
   const navigate = useNavigate()
 
   const signOutCurrentUser = async () => {
+
     const user = await signOut(auth)
     console.log(user)
+    navigate(-1)
   }
   return (
     <div className="container-fluid p-0 w-100">
@@ -36,8 +38,8 @@ const Header = () => {
             <li className="nav-item mx-3">
             <Link to={"/registrarme"}> Registrarse</Link>
             </li>
-            <li className="nav-item mx-3 ">
-             home
+            <li className=" btn nav-item mx-3 " >
+             <button onClick={ signOutCurrentUser }>signOut</button>
             </li>
             <li className="nav-item mx-3">
              home

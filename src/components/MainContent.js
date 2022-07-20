@@ -21,7 +21,7 @@ console.log(questions)
         {
             questions?.map(({question,tecnologias, answers, id})=>{
                 return (<div
-                        className='d-flex row border w-75 p-2 mx-1'
+                        className='d-flex row border w-75 p-2 mx-1 my-2'
                         key={id}>
                           <div className="col-2">
                             <span
@@ -32,7 +32,7 @@ console.log(questions)
                         <div className="col-10">
                         
                       <Link to={`/preguntas/${id}`}><span className='h4 d-block'>{question}</span> </Link> 
-                        {tecnologias.map((tecnologia, index)=><span className='fs-6 bg-info p-1' key={index}>{tecnologia}</span> )}
+                        {tecnologias.map((tecnologia, index)=><span style={{ "fontSize": "12px" }} className=' m-2 bg-info p-1' key={index}>{tecnologia}</span> )}
                         </div> 
                     </div>)
             })

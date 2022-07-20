@@ -18,7 +18,7 @@ const Layout = ({ children }) => {
                 <span className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Preguntas</span>
               </Link>
 
-              <Link to={"/preguntas/nueva preguntas"}>
+              <Link to={"/nueva-pregunta"}>
                 <span className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Hacer una Pregunta</span>
               </Link>
             </div>

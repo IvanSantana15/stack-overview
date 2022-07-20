@@ -1,38 +1,51 @@
 import React, { useEffect, useState } from 'react'
 
-const useTime = (timestamp) => {
+const useTime = () => {
 
-const [value , setValue] = useState("")
-  const timeSecons =  timestamp.toDate().getTime()/1000
-  const currrentTimeSecons = new Date().getTime()/1000
-  const passedTime = currrentTimeSecons - timeSecons
+  const [value, setValue] = useState(null)
+  const [passTime, setPassTime] = useState("")
 
-    const createdAt = ()=>{
-        if(passedTime < 1 ){
-            setValue("Hace menos de un segundo")
-            return
-        }
-        if(passedTime < 1 && passedTime < 5 ){
-            setValue("hace menos de 5 segundos")
-            return
-        }
-        if(passedTime < 60 ){
-            setValue("Hace menos de un minuto")
-            return
-        }
-        if(passedTime / 60 >=  1 && passedTime / 60 <  60){
-            setValue(`Hace ${passedTime / 60}`)
-            return
-        }
-        
+  const createdAt = () => {
+
+    const timeSecons = value?.toDate().getTime() / 1000
+    const currrentTimeSecons = new Date().getTime() / 1000
+    console.log(timeSecons)
+    // console.log((currrentTimeSecons-timeSecons)/60/60/24)
+    let passedTime = (currrentTimeSecons - timeSecons) / 60
+
+
+    if (passedTime < 1) {
+      setPassTime("Hace menos de un minuto")
+      return
+    } else if (passedTime > 1 && passedTime < 60) {
+      setPassTime(`hace ${Math.floor(passedTime)} minutos`)
+      return
+    } else if (passedTime / 60 >= 1 && passedTime / 60 < 24 ) {
+      setPassTime(`hace ${Math.floor(passedTime/60)} horas`)
+      return
+    } else if (passedTime / 60 / 24 >= 1) {
+      setPassTime(`Hace ${Math.floor(passedTime / 60 / 24)} dias`)
+      return
+    } else if (passedTime / 24 / 30 >= 1) {
+      setPassTime(`Hace ${Math.floor(passedTime)} mes(es)`)
+      return
     }
-    useEffect(()=>{
-      createdAt()
-    })
 
+  }
+  useEffect(() => {
+    createdAt()
+  }, [value])
+
+  const getDocTime = (timestamp) => {
+    setValue(timestamp)
+  }
 
   return (
-    {value}
+    {
+      value,
+      getDocTime,
+      passTime
+    }
   )
 }
 
