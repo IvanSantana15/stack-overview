@@ -18,17 +18,24 @@ const Question = () => {
 
 
   console.log(id)
+  const[campoValidado, setCampoValidado] = useState(true)
   const questionsDocRef = collection(db, 'questions');
   const { value, getDocTime, passTime } = useTime()
   const navigate = useNavigate()
 
 
   const newAnswer = async (editorContent) => {
-    console.log(user)
+      console.log(editorContent)
+    if(!editorContent){
+      setCampoValidado(false)
+      return
+    }
+
     if (!user) {
       navigate("/iniciar")
       return
     }
+    
     const questionRef = doc(db, 'questions', id)
     await updateDoc(questionRef, { answers: arrayUnion(editorContent) })
 
@@ -51,8 +58,10 @@ const Question = () => {
 
   return (
     <div className="container">
+ 
       {/* question haeder */}
-      <div className="border-bottom py-3 w-75">
+      <div className="border-bottom py-3 w-75 ">
+      
         <span className="h3">{question?.question}</span>
 
         <div style={{ "fontSize": "14px" }}>
@@ -88,8 +97,13 @@ const Question = () => {
           ))
         }
       </div>
-      <div className="w-75">
-      <TextEditor getEditorContent={setTextEditorContent}  />
+      <div className="row">
+        <div className="col-md-9 ">
+            <TextEditor getEditorContent={setTextEditorContent}  />
+        </div>
+    <div>
+      {!campoValidado && "No hay contenido"}
+    </div>
       </div>
      
 
