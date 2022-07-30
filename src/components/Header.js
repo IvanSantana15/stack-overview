@@ -3,25 +3,32 @@ import { auth, db } from "../firebase"
 import { collection, getDocs } from "firebase/firestore"
 import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useStore } from "../store/StoreProvider"
+import { type } from "@testing-library/user-event/dist/type"
+import { types } from "../store/storeReducer"
 
 const Header = () => {
-  const [mobileMenu, setMobileMenu] = useState(false)
-  const questionsCollectionRef = collection(db, "questions")
+  const [store, dispatch] = useStore()
   const { user } = useAuth()
   const navigate = useNavigate()
 
   const signOutCurrentUser = async () => {
 
     const user = await signOut(auth)
-    console.log(user)
     navigate(-1)
   }
 
-  const searchQuestions = async () => {
-    const data = await getDocs(questionsCollectionRef)
-    console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-  }
+
+
+const handleSumit =(e)=>{
+  e.preventDefault()
+
+  const filteredQuestions = store.questions.filter(question => question.question.search(e.target.search.value) != -1)
+  dispatch({type: types.setFilteredQuestion, payload: filteredQuestions})
+  
+  navigate(`/filtered-question/${e.target.search.value}`)
+}
+
   return (
     <div className="container-fluid p-0 w-100 shadow-sm">
 

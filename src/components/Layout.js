@@ -8,18 +8,14 @@ const Layout = ({ children }) => {
       <Header />
       <div className="  container-fluid px-0  " style={{ "height": "100%" }}>
         <div className="row" style={{ "height": "100%" }} >
-          <div className="d-none d-md-block d-lg-block col-md-2  border border-top-0 " >
-            <div className=" nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-              <Link className="text-decoration-none" to={"/"}>
+          <div className="col-md-2 bg-light border border-top-0" >
+            <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+              <Link className="text-decoration-none"to={"/"}>
                 <span className="nav-link " id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Inicio</span>
               </Link>
 
-              <Link className="text-decoration-none"to={"/"}>
-                <span className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Preguntas</span>
-              </Link>
-
-              <Link className="text-decoration-none" to={"/nueva-pregunta"}>
-                <span className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Hacer una Pregunta</span>
+              <Link  className="text-decoration-none nav-link" to={"/nueva-pregunta"}>
+                <span className="" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Hacer una Pregunta</span>
               </Link>
             </div>
           </div>

@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { db } from '../firebase'
-import {collection, getDocs}from "firebase/firestore"
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useStore } from '../store/StoreProvider'
+import useFirebase from "../hooks/useFirebase"
 
 const MainContent = () => {
- const [questions, setQuestions] = useState(null)
- const questionsCollectionRef = collection(db,"questions") 
+  const [store] = useStore()
+  const {questions} = store
 
-console.log(questions)
+  const {getQuestions } = useFirebase()
+
     useEffect(()=>{
-        const getQuestions = async()=>{
-            const data = await getDocs(questionsCollectionRef)
-            setQuestions(data.docs.map((doc)=> ({...doc.data(),id: doc.id})))
-        }
-
-        getQuestions()
+    
+   getQuestions()
     },[])
   return (
     <div>
@@ -29,9 +26,9 @@ console.log(questions)
                             >Repuestas: {answers.length}</span>
                         </div> 
 
-                        <div className=" col-md-10 ">
+                        <div className="col-md-10">
                         
-                      <Link className="text-decoration-none" to={`/preguntas/${id}`}><span className=' w-75 h4 d-block'>{question}</span> </Link> 
+                      <Link className="text-decoration-none" to={`/preguntas/${id}`}><span className='h4 d-block'>{question}</span> </Link> 
                         {tecnologias.map((tecnologia, index)=><span style={{ "fontSize": "12px" }} className=' m-2 bg-info p-1' key={index}>{tecnologia}</span> )}
                         </div> 
                     </div>)

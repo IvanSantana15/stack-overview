@@ -4,55 +4,38 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useAuth } from "../contexts/AuthContext"
 import { db } from "../firebase"
+import useFirebase from "../hooks/useFirebase"
 import useTime from "../hooks/useTime"
+import { useStore } from "../store/StoreProvider"
+import { types } from "../store/storeReducer"
 import TextEditor from "./TextEditor"
 
 
-
-
 const Question = () => {
-  const { id } = useParams()
-  const [question, setQuestion] = useState(null)
+  const [store, dispatch] = useStore()
+  const {singleQuestion, editorContent} = store
+  const {getSingleDoc, updateCurrrentDoc} = useFirebase()
+
+  const { docId } = useParams()
+ 
   const { user } = useAuth()
-  const [textEditorContent, setTextEditorContent] = useState(null)
 
 
-  console.log(id)
-  const[campoValidado, setCampoValidado] = useState(true)
   const questionsDocRef = collection(db, 'questions');
   const { value, getDocTime, passTime } = useTime()
   const navigate = useNavigate()
 
-
-  const newAnswer = async (editorContent) => {
-      console.log(editorContent)
-    if(!editorContent){
-      setCampoValidado(false)
-      return
-    }
-
-    if (!user) {
+  const handleUpdateCurrentDoc =  () => {
+    if (user== null) {
       navigate("/iniciar")
       return
     }
-    
-    const questionRef = doc(db, 'questions', id)
-    await updateDoc(questionRef, { answers: arrayUnion(editorContent) })
-
-  }
+    updateCurrrentDoc({docId: docId,data:{answers: arrayUnion(editorContent)}})
+  } 
+   
   useEffect(() => {
-    const getQuestion = async () => {
-      const docRef = doc(db, 'questions', id)
-      const data = await getDoc(docRef)
-
-      console.log(data.data())
-      // console.log(data.docs.map(doc => doc.data()))
-      setQuestion(data.data())
-      getDocTime(data.data().fecha)
-
-    }
-
-    getQuestion()
+   // getDocTime(data.data().fecha)
+    getSingleDoc(docId)
 
   }, [])
 
@@ -60,9 +43,8 @@ const Question = () => {
     <div className="container">
  
       {/* question haeder */}
-      <div className="border-bottom py-3 w-75 ">
-      
-        <span className="h3">{question?.question}</span>
+      <div className="border-bottom py-3 w-75">
+        <span className="h3">{singleQuestion?.question}</span>
 
         <div style={{ "fontSize": "14px" }}>
           <span  >Formulada: {passTime}</span>
@@ -70,10 +52,10 @@ const Question = () => {
       </div>
       {/* Question description */}
       <div className="w-75">
-        <div className="fs-4" dangerouslySetInnerHTML={{__html: question?.description}}></div>
+        <div className="fs-4" dangerouslySetInnerHTML={{__html: singleQuestion?.description}}></div>
         <div>
           {
-            question?.tecnologias.map((tec, index) => <span  style={{ "fontSize": "14px" }} className=' bg-info p-1' key={index}>{tec}</span>)
+            singleQuestion?.tecnologias.map((tec, index) => <span  style={{ "fontSize": "14px" }} className=' bg-info p-1' key={index}>{tec}</span>)
           }
         </div>
 
@@ -82,10 +64,10 @@ const Question = () => {
       {/* answers */}
       <div className="my-5 fs-5 w-75">
         <div className="">
-          <span>Respuestas: {question?.answers.length}</span>
+          <span>Respuestas: {singleQuestion?.answers.length}</span>
         </div>
         {
-          question?.answers.map((answer, index) => (
+          singleQuestion?.answers.map((answer, index) => (
             <div 
             key={index}
             className="container border my-3">
@@ -97,18 +79,14 @@ const Question = () => {
           ))
         }
       </div>
-      <div className="row">
-        <div className="col-md-9 ">
-            <TextEditor getEditorContent={setTextEditorContent}  />
-        </div>
-    <div>
-      {!campoValidado && "No hay contenido"}
-    </div>
+      <div className="w-75">
+      <TextEditor  />
       </div>
      
 
       <div> <button className="btn btn-primary mt-4"
-        onClick={()=> newAnswer(textEditorContent) }
+        onClick={handleUpdateCurrentDoc}
+          
         >Publicar tu respuesta</button></div>
     </div>
   )
