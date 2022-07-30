@@ -5,7 +5,8 @@ const types = {
     getEditorContent: "editor/ get content",
     newQuestionFormDataTitle:"question/ form data/ title",
     newQuestionFormDataTab:"question/ form data/ tab",
-    setFilteredQuestion:"question/ set filterd question"
+    setFilteredQuestion:"question/ set filterd question",
+    handleMobileMenu: "menu/ open or close"
 
 }
 
@@ -14,7 +15,8 @@ const inicialStore = {
     singleQuestion: null,
     editorContent: "",
     questionFormData:{title:"", tab:""},
-    filteredQuestion:[]
+    filteredQuestion:[],
+    isMobileMenuOpen: false
     
 
 }
@@ -52,6 +54,11 @@ const storeReducer = (state, action) => {
                 ...state,
                 filteredQuestion: action.payload
             }
+            case types.handleMobileMenu:
+                return{
+                    ...state,
+                   isMobileMenuOpen: action.payload
+                }
         default:
             return state
             
