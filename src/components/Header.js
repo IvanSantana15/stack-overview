@@ -36,18 +36,18 @@ const handleSumit =(e)=>{
         <a className="navbar-brand" href="#">Stack overview</a>
 
         <button className="navbar-toggler mx-1" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
-        onClick={()=> setMobileMenu(pre => !pre)}
+        onClick={dispatch({type: types.mobileMenu, payload: !store.isMobileMenuOpen})}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
 
         {
-          mobileMenu &&
+           store.isMobileMenuOpen &&
         <div className="fixed-top w-75 bg-white mt-5 mr-1 border shadow-sm ">
           <div className="d-block d-md-none d-lg-none col-md-2  border border-top-0" >
             <div className=" nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical"
-            onClick={()=>setMobileMenu(false)}
+            onClick={dispatch({type: types.mobileMenu, payload: !store.isMobileMenuOpen})}
             >
               <Link className="text-decoration-none" to={"/"}>
                 <span className="nav-link text-secondary" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Inicio</span>
