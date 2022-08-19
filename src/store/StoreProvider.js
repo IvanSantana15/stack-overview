@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useReducer } from 'react'
-import storeReducer, { inicialStore } from './storeReducer'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
+import { auth } from '../firebase'
+import storeReducer, { inicialStore, types } from './storeReducer'
 
 const StoreContext = createContext()
 
@@ -8,6 +9,15 @@ const useStore = ()=> useContext(StoreContext)
 const StoreProvider = ({children}) => {
     const [store, dispatch] = useReducer(storeReducer, inicialStore)
 
+
+
+ useEffect(()=>{
+        auth.onAuthStateChanged((user)=>{
+        dispatch({type: types.setUser, payload: user})
+            
+            
+        })
+    },[store.user])
   return (
     <StoreContext.Provider value={[store, dispatch]} >
         {children}

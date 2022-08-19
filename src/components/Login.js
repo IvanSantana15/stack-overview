@@ -1,14 +1,13 @@
 import { signInWithEmailAndPassword } from "firebase/auth"
-import firebase from "firebase/compat/app"
-import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { useAuth } from "../contexts/AuthContext"
 import { auth } from "../firebase"
+import { useStore } from "../store/StoreProvider"
+import { types } from "../store/storeReducer"
 
 const Login = () => {
-    const [loginEmail, setLoginEmail]= useState("")
-    const [loginPassword, setLoginPassword]= useState("")
-    const {setUser} = useAuth()
+    const [store, dispatch] = useStore()
+    const {loginFormDate:{loginEmail, loginPassword}} = store
+   
     const navigate = useNavigate()
 
     const signIn = async(e)=>{
@@ -16,9 +15,9 @@ const Login = () => {
 
         try {
             const user =  await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-            setUser(user)
-            navigate("/")
-            console.log(user)
+            dispatch({type: types.setUser, payload: user})
+            navigate(-1)
+        
         } catch (error) {
             console.log(error)
         }
@@ -36,15 +35,15 @@ const Login = () => {
                     >
                         <div className="form-group p-2">
                             <label htmlFor="exampleInputEmail1">Correo</label>
-                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
-                            onChange={(e)=> setLoginEmail(e.target.value)}
+                            <input type="email" required className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
+                            onChange={(e)=>  dispatch({type: types.loginFormDataEmail, payload: e.target.value})}
                             />
-                            <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                           
                         </div>
                         <div className="form-group p-2">
                             <label htmlFor="exampleInputPassword1">Contraseña</label>
-                            <input type="password" className="form-control" id="exampleInputPassword1" 
-                              onChange={(e)=> setLoginPassword(e.target.value)}
+                            <input type="password" required className="form-control" id="exampleInputPassword1" 
+                              onChange={(e)=> dispatch({type: types.loginFormDataPassword, payload: e.target.value})}
                             />
                         </div>
                         <div className="form-group p-2 text-center mb-3">

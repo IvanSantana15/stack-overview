@@ -1,10 +1,12 @@
 import { db } from '../firebase'
-import {collection, getDocs, doc, getDoc, arrayUnion, updateDoc, addDoc}from "firebase/firestore"
+import {collection, getDocs, doc, getDoc, updateDoc, addDoc}from "firebase/firestore"
 import { types } from '../store/storeReducer'
 import { useStore } from '../store/StoreProvider'
+import {  useNavigate } from 'react-router-dom'
 
 const useFirebase = () => {
-    const [store, dispatch] = useStore()
+    const [, dispatch] = useStore()
+   const navigate = useNavigate()
 
     const getQuestions = async()=>{
         const questionsCollectionRef = collection(db,"questions") 
@@ -20,20 +22,22 @@ const useFirebase = () => {
   
         dispatch({type: types.getSingleQuestion, payload: data.data()})
   
-        
+        return data
       }
 
       const updateCurrrentDoc = async({collection='questions', docId, data})=>{
         const questionRef = doc(db, collection, docId)
-       const res =  await updateDoc(questionRef, data)
-       console.log(res)
+       await updateDoc(questionRef, data)
+       
       }
 
       const createNewQuestion = async (collectionRef,data) => {
        
         const res = await addDoc(collectionRef, data)
 
-       console.log(res)
+        if(res){
+          navigate("/")
+        }
     }
 
   return ({

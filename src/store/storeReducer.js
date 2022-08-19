@@ -1,22 +1,32 @@
 
 const types = {
+    setUser: "set user",
     getAllQuestions: "question/get all",
     getSingleQuestion: "question/get single",
     getEditorContent: "editor/ get content",
     newQuestionFormDataTitle:"question/ form data/ title",
     newQuestionFormDataTab:"question/ form data/ tab",
+    newQuestionFormDataError:"question/ form data/ error",
     setFilteredQuestion:"question/ set filterd question",
-    mobileMenu:"menu/ set open"
+    registerFormDataEmail:"register/form data/ email",
+    registerFormDataPassword:"register/form data/ password",
+    loginFormDataEmail:"login/form data/ email",
+    loginFormDataPassword:"login/form data/ password",
+    handleMobileMenu: "menu/ open or close"
 
 }
 
 const inicialStore = {
+    user: null,
     questions: null,
     singleQuestion: null,
     editorContent: "",
-    questionFormData:{title:"", tab:""},
+    questionFormData:{title:"", tab:"", formError:""},
     filteredQuestion:[],
-    isMobileMenuOpen: false
+    registerFormDate:{registerEmail: "", registerPassword: ""},
+    loginFormDate:{loginEmail: "", loginPassword: ""},
+    isMobileMenuOpen: false,
+  
     
 
 }
@@ -24,6 +34,11 @@ const inicialStore = {
 const storeReducer = (state, action) => {
 
     switch (action.type) {
+        case types.setUser:
+            return{
+                ...state,
+                user: action.payload
+            }
         case types.getAllQuestions:
             return{
                 ...state,
@@ -49,15 +64,40 @@ const storeReducer = (state, action) => {
                 ...state,
                 questionFormData:{...state.questionFormData, tab: action.payload}
             }
+            case types.newQuestionFormDataError:
+            return{
+                ...state,
+                questionFormData:{...state.questionFormData, formError: action.payload}
+            }
             case types.setFilteredQuestion:
             return{
                 ...state,
                 filteredQuestion: action.payload
             }
-            case types.mobileMenu:
+            case types.registerFormDataEmail:
                 return{
                     ...state,
-                    isMobileMenuOpen: action.payload
+                    registerFormDate:{...state.registerFormDate,registerEmail: action.payload}
+                }
+                case types.registerFormDataPassword:
+                return{
+                    ...state,
+                    registerFormDate:{...state.registerFormDate,registerPassword: action.payload}
+                }
+                case types.loginFormDataEmail:
+                    return{
+                        ...state,
+                        loginFormDate:{...state.loginFormDate,loginEmail: action.payload}
+                    }
+                    case types.loginFormDataPassword:
+                    return{
+                        ...state,
+                        loginFormDate:{...state.loginFormDate, loginPassword: action.payload}
+                    }
+            case types.handleMobileMenu:
+                return{
+                    ...state,
+                   isMobileMenuOpen: action.payload
                 }
         default:
             return state

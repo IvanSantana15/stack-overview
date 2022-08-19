@@ -1,23 +1,24 @@
 import firebase from "firebase/compat/app"
-import { useState } from "react"
 import { auth } from "../firebase"
 import {createUserWithEmailAndPassword} from "firebase/auth"
-import { useAuth } from "../contexts/AuthContext"
 import { useNavigate } from "react-router-dom"
+import { useStore } from "../store/StoreProvider"
+import { types } from "../store/storeReducer"
 
 const Register = () => {
-    const [registerEmail, setRegisterEmail] = useState("")
-    const [registerPassword, setRegisterPassWord] = useState("")
-     const {setUser} = useAuth()
+    const[store, dispatch] = useStore()
+    const {registerFormDate:{registerEmail, registerPassword}}= store
+   
+   
      const navigate = useNavigate()
 
 const register = async(e)=>{
     e.preventDefault()
     try {
         const user =  await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
-        setUser(user)
+        dispatch({type: types.setUser, payload: user})
         navigate("/")
-        console.log(user)
+        
     } catch (error) {
         console.log(error)
     }
@@ -26,7 +27,7 @@ const register = async(e)=>{
 
     return (
         <div className="container " style={{ "height": "100vh" }}>
-            <div className="row w-100 d-flex flex-column justify-content-center align-items-center p-5 ">
+            <div className="row w-100 d-flex flex-column justify-content-center align-items-center p-5  ">
                 <div className="col-sm-5  bg-white rounded ">
                     <div className="text-center">
                         <h3>Registro</h3>
@@ -36,15 +37,15 @@ const register = async(e)=>{
                     onSubmit={(e)=>  register(e)}>
                         <div className="form-group p-2">
                             <label htmlFor="exampleInputEmail1">Correo</label>
-                            <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
-                            onChange={(e)=> setRegisterEmail(e.target.value)}
+                            <input type="email"  required className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
+                            onChange={(e)=> dispatch( {type:types.registerFormDataEmail,payload: e.target.value})}
                             />
-                            <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                            <small id="emailHelp" className="form-text text-muted"></small>
                         </div>
                         <div className="form-group p-1">
                             <label htmlFor="exampleInputPassword1">Contraseña</label>
-                            <input type="password" className="form-control" id="exampleInputPassword1" 
-                             onChange={(e)=> setRegisterPassWord(e.target.value)}
+                            <input type="password" required className="form-control" id="exampleInputPassword1" 
+                             onChange={(e)=> dispatch( {type:types.registerFormDataPassword,payload: e.target.value})}
                             />
                         </div>
                         <div className="form-group p-1 text-center mb-3">
