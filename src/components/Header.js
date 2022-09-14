@@ -45,7 +45,7 @@ const handleSumit =(e)=>{
     <div className="container-fluid p-0 w-100 shadow-sm position-fixed">
 
       <nav className="navbar navbar-expand-lg navbar-light bg-light px-3">
-        <span className="navbar-brand" href="#">Stack overview</span>
+        <Link  to="/" className="navbar-brand" href="#">Stack overview</Link>
 
         <button className="navbar-toggler mx-1" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
         onClick={()=> dispatch({type: types.handleMobileMenu, payload: !store.isMobileMenuOpen})}
@@ -64,7 +64,7 @@ const handleSumit =(e)=>{
              { 
                 <div className="container w-100 bg-secondary py-2 mt-1 " >
                   <form onSubmit={(e)=> handleSumit(e)}>
-                <input className="w-75 py-1 ml-0" name="search" type="search" placeholder="Buscar" aria-label="Search"
+                <input className="w-75 p-2 ml-0" autoFocus name="search" type="search" placeholder="Buscar" aria-label="Search"
                 />
                 <button type="submit" className="mx-1 btn btn-success">Buscar</button>
                 </form>
@@ -96,7 +96,7 @@ const handleSumit =(e)=>{
                 </Link>
                 </>
                 }
-              <Link className="text-decoration-none" to={"/registrarme"}>
+              <Link className="text-decoration-none" to={"/sobre-este-sitio"}>
                 <span className="nav-link text-secondary" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Sobre este sitio</span>
               </Link>
 
@@ -119,7 +119,7 @@ const handleSumit =(e)=>{
 
                 <div className="col-10">
                   <div className="form-group  w-100">
-                    <input className="form-control mr-sm-2 w-100 " name="search" type="search" placeholder="Buscar" aria-label="Search"
+                    <input className="form-control mr-sm-2 w-100 " autoFocus name="search" type="search" placeholder="Buscar" aria-label="Search"
                     />
                   </div>
                 </div>

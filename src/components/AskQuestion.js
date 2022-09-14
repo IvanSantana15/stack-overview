@@ -13,7 +13,7 @@ const AskQuestion = () => {
     const { user } = store
     const navigate = useNavigate()
     const questionCollectionRef = collection(db, "questions")
-
+   
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -28,13 +28,13 @@ const AskQuestion = () => {
             {
                 Pregunta: questionFormData.title,
                 Descripcion: editorContent,
+                Respuestas:[],
                 Tecnologias: questionFormData.tab.split(" "),
                 Fecha: Timestamp.now(),
-                Respuestas: []
+                UsuarioId:user.uid
             }
         )
     }
-
 
     return (
         <div className='Container mt-3 '>

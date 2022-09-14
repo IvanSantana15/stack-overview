@@ -15,7 +15,7 @@ const StoreProvider = ({children}) => {
         auth.onAuthStateChanged((user)=>{
         dispatch({type: types.setUser, payload: user})
             
-            
+           console.log(user) 
         })
     },[store.user])
   return (

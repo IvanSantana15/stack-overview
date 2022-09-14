@@ -1,6 +1,5 @@
 
-import { arrayUnion } from "firebase/firestore"
-import { useEffect } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import useFirebase from "../hooks/useFirebase"
 import useTime from "../hooks/useTime"
@@ -10,9 +9,8 @@ import TextEditor from "./TextEditor"
 
 const Question = () => {
   const [store,] = useStore()
-  const { singleQuestion, editorContent } = store
-  const { getSingleDoc, updateCurrrentDoc } = useFirebase()
-
+  const { editorContent } = store
+  const { newAnswer} = useFirebase()
   const { docId } = useParams()
 
   const { getDocTime, passTime } = useTime()
@@ -23,17 +21,34 @@ const Question = () => {
       navigate("/iniciar-sesion")
       return
     }
-    updateCurrrentDoc({ docId: docId, data: { Respuestas: arrayUnion(editorContent) } })
+    if(editorContent.length  > 8){
+      const res = newAnswer({docId:docId ,text: editorContent } )
+      if(res)navigate("/")
+    }
   }
+console.log(store.questions)
 
-  useEffect(() => {
+ const singleQuestion = useMemo(()=>{
+  const getCurrentDoc = docId => {
+    const doc = store.questions?.find((doc)=> doc.id === docId)
+    return doc
+  }
+      return getCurrentDoc(docId)
+ },[ store.questions, docId]) 
 
-    getSingleDoc(docId)
-      .then(doc => getDocTime(doc.data().Fecha))
+const docTime = useCallback(()=>{
+  return getDocTime(singleQuestion?.Fecha)
+},[getDocTime, singleQuestion])
 
 
-  }, [docId])
+ useEffect(()=>{
 
+  if(!store.questions){
+    navigate("/")
+  }
+  
+docTime()
+ },[docTime,store.questions,navigate])
   return (
     <div className="container px-2">
       <div className="row">
@@ -63,7 +78,7 @@ const Question = () => {
               <span>Respuestas: {singleQuestion?.Respuestas.length}</span>
             </div>
             {
-              singleQuestion?.Respuestas.map((answer, index) => (
+              singleQuestion?.Respuestas?.map((answer, index) => (
                 <div
                   key={index}
                   className="container border my-3 w-100 ">
@@ -76,6 +91,7 @@ const Question = () => {
             }
           </div>
           <div>
+            <h6>Responde a esta pregunta</h6>
             <TextEditor />
           </div>
 

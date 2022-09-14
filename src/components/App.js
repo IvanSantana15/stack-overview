@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import StoreProvider from "../store/StoreProvider";
+import About from "./About";
 import AskQuestion from "./AskQuestion";
 import FilteredQuestion from "./FilteredQuestion";
 import Layout from "./Layout";
@@ -20,6 +21,7 @@ function App() {
                 <Route path="/iniciar-sesion" element={<Login />} />
                 <Route path="/registrarme" element={<Register />} />
                 <Route path="/nueva-pregunta" element={<AskQuestion />} />
+                <Route path="/sobre-este-sitio" element={<About/>} />
                 <Route path="/preguntas/:docId" element={<Question />} />
                 <Route path="/filtered-question/:search" element={<FilteredQuestion/>} />
                 <Route path="/" element={<MainContent />} />

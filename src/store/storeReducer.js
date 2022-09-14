@@ -3,6 +3,7 @@ const types = {
     setUser: "set user",
     getAllQuestions: "question/get all",
     getSingleQuestion: "question/get single",
+    getCurrentQuestionAnswers:"get current/ question / answers",
     getEditorContent: "editor/ get content",
     newQuestionFormDataTitle:"question/ form data/ title",
     newQuestionFormDataTab:"question/ form data/ tab",
@@ -19,6 +20,7 @@ const types = {
 const inicialStore = {
     user: null,
     questions: null,
+    currentQuestionAnswers:[],
     singleQuestion: null,
     editorContent: "",
     questionFormData:{title:"", tab:"", formError:""},
@@ -48,6 +50,11 @@ const storeReducer = (state, action) => {
             return{
                 ...state,
                 singleQuestion: action.payload
+            }
+            case types.getCurrentQuestionAnswers:
+            return{
+                ...state,
+                currentQuestionAnswers: action.payload
             }
         case types.getEditorContent:
             return{

@@ -1,15 +1,12 @@
-import  { useEffect, useState } from 'react'
+import  {  useState } from 'react'
 
 const useTime = () => {
 
-  const [value, setValue] = useState(null)
+  
   const [passTime, setPassTime] = useState("")
 
 
-  useEffect(() => {
-
-
-    const createdAt = () => {
+    const createdAt = (value) => {
 
       const timeSecons = value?.toDate().getTime() / 1000
       const currrentTimeSecons = new Date().getTime() / 1000
@@ -33,16 +30,15 @@ const useTime = () => {
       }
     }
 
-    createdAt()
-  }, [value])
+    
+
 
   const getDocTime = (timestamp) => {
-    setValue(timestamp)
+    createdAt(timestamp)
   }
 
   return (
     {
-      value,
       getDocTime,
       passTime
     }

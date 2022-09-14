@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
                     <span className="">Hacer una Pregunta</span>
                   </Link>
 
-                  <Link className="text-decoration-none nav-link text-secondary" to={"/registrarme"}>
+                  <Link className="text-decoration-none nav-link text-secondary" to={"/sobre-este-sitio"}>
                     <span className="">Sobre este sitio</span>
                   </Link>
                 </div>
@@ -63,7 +63,7 @@ const Layout = ({ children }) => {
               <span className="">Hacer una Pregunta</span>
             </Link>
 
-            <Link className="text-decoration-none nav-link text-white" to={"/registrarme"}>
+            <Link className="text-decoration-none nav-link text-white" to={"/sobre-este-sitio"}>
               <span className="">Sobre este sitio</span>
             </Link>
           </div>
