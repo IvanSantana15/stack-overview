@@ -45,7 +45,7 @@ const handleSumit =(e)=>{
     <div className="container-fluid p-0 w-100 shadow-sm position-fixed">
 
       <nav className="navbar navbar-expand-lg navbar-light bg-light px-3">
-        <Link  to="/" className="navbar-brand" href="#">Stack overview</Link>
+        <Link  to="/" className="navbar-brand" href="#">Stack overload</Link>
 
         <button className="navbar-toggler mx-1" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
         onClick={()=> dispatch({type: types.handleMobileMenu, payload: !store.isMobileMenuOpen})}
