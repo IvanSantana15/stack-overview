@@ -8,13 +8,7 @@ const MainContent = () => {
   const [store] = useStore()
   const { questions } = store
 
-  const { getQuestions, getAnswers, getAnswersCount } = useFirebase()
-
-
-  const answerxx = (id)=>{
-    getAnswersCount(id)
-    .then(count =>count ) 
-  }
+  const { getQuestions } = useFirebase()
 
  const getQuestionsCallback = useCallback(()=>{
   getQuestions()

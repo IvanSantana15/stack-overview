@@ -8,7 +8,7 @@ const About = () => {
                 
             </div>
             <div className="w-75 ">
-                <img className="img-fluid" src="aboutImg.svg"></img>
+                <img className="img-fluid" src="aboutImg.svg" alt="logo"></img>
             </div>
 
             <div className="w-75 ">
